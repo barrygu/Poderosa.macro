@@ -8,7 +8,7 @@ import System.IO;
 import System.Text;
 import System.Threading;
 //import System.Net;
-//import System.Net.Sockets;
+import System.Net.Sockets;
 //import System.Diagnostics;
 //import System.Diagnostics.ProcessStartInfo;
 
@@ -273,7 +273,7 @@ function find_ip(stdOut, mac)
 }
 /**/
 /** /
-function arp_update_udp_internal(svrAddrs)
+function arp_update_udp(svrAddrs)
 {
 	var UDP_DISCARD_PORT = 9;
 	var echoBytes = System.Text.Encoding.ASCII.GetBytes("echo string...");
