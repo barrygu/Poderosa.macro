@@ -49,7 +49,8 @@ if (gTargetInfo != null && (gTargetInfo.MacAddress || gTargetInfo.IPAddress))
 //env.Debug.Trace("done.");
 //env.Debug.HideTraceWindow();
 /**/
-/**/
+
+/** /
 function waitUntilAvailable(ie) 
 {
 const READYSTATE_UNINITIALIZED  = 0;
@@ -77,38 +78,38 @@ function SelectTarget()
 {
 	var TargetInfo = {};
 	var objIE = new ActiveXObject("InternetExplorer.Application");
-  var objShell = new ActiveXObject("WScript.Shell");
+	var objShell = new ActiveXObject("WScript.Shell");
 
-		objIE.Navigate("about:blank");
-		objIE.Document.title = 'Select a target for Poderosa';
-		objIE.ToolBar        = false;
-		objIE.Resizable      = false;
-		objIE.StatusBar      = false;
-		objIE.Width          = 320;
-		objIE.Height         = 200;
+	objIE.Navigate("about:blank");
+	objIE.Document.title = 'Select a target for Poderosa';
+	objIE.ToolBar        = false;
+	objIE.Resizable      = false;
+	objIE.StatusBar      = false;
+	objIE.Width          = 320;
+	objIE.Height         = 200;
 
-		objIE.Left = 100;
-		objIE.Top  = 100;
+	objIE.Left = 100;
+	objIE.Top  = 100;
 
     if (!waitUntilAvailable(objIE))
       return TargetInfo;
 
-		objIE.Document.body.innerHTML = '<div align="center">\n' +
-			'<p><input type="hidden" id="fOK" value="0"></p>\n' +
-			'<p><select name="macSelector">\n' +
-			'<option value="00-0e-9f-fa-c0-ac">My OMAP</option>\n' +
-			'<option value="00-0e-9f-fa-c1-be">Xingui\'s OMAP</option>\n' +
-			'<option value="00-0e-9f-fa-c1-d1">Qiaohui\'s OMAP</option>\n' +
-			'<option value="00-80-c8-3b-26-f4">Qiaohui\'s Jacinto</option>\n' +
-			'<option value="">N/A</option>\n' +
-			'</select></p>\n' +
-			'<p><select name="ipSelector">\n' +
-			'<option value="">N/A</option>\n' +
-			'<option value="192.168.199.119">192.168.199.119</option>\n' +
-			'</select></p>\n' +
-			'<p><input type="submit" value="OK" onClick="VBScript:fOK.value=1"></p>'
-		objIE.Document.body.style.overflow = "auto";
-		objIE.Visible = true;
+	objIE.Document.body.innerHTML = '<div align="center">\n' +
+		'<p><input type="hidden" id="fOK" value="0"></p>\n' +
+		'<p><select name="macSelector">\n' +
+		'<option value="00-0e-9f-fa-c0-ac">My OMAP</option>\n' +
+		'<option value="00-0e-9f-fa-c1-be">Xingui\'s OMAP</option>\n' +
+		'<option value="00-0e-9f-fa-c1-d1">Qiaohui\'s OMAP</option>\n' +
+		'<option value="00-80-c8-3b-26-f4">Qiaohui\'s Jacinto</option>\n' +
+		'<option value="">N/A</option>\n' +
+		'</select></p>\n' +
+		'<p><select name="ipSelector">\n' +
+		'<option value="">N/A</option>\n' +
+		'<option value="192.168.199.119">192.168.199.119</option>\n' +
+		'</select></p>\n' +
+		'<p><input type="submit" value="OK" onClick="VBScript:fOK.value=1"></p>'
+	objIE.Document.body.style.overflow = "auto";
+	objIE.Visible = true;
     objShell.AppActivate(objIE.Document.title);
     
 	try {
@@ -125,7 +126,7 @@ function SelectTarget()
 	}
 
 	objIE = null;
-  //Thread.Sleep(10000);
+	//Thread.Sleep(10000);
 
 	return TargetInfo;
 }
@@ -143,14 +144,14 @@ function main()
 	}
 	env.Debug.Trace(String.Format("local host IP: {0}", local_host.IPAddress));
 
-  if (gTargetInfo.MacAddress) {
-    target_host.MacAddress = gTargetInfo.MacAddress;
-  } /*else {
-  	target_host.MacAddress = defaultTarget;
-  }*/
+	if (gTargetInfo.MacAddress) {
+		target_host.MacAddress = gTargetInfo.MacAddress;
+	} /*else {
+		target_host.MacAddress = defaultTarget;
+	}*/
 	target_host.NetAddress = local_host.IPAddress.match(/\d+\.\d+\.\d+/).ToString();
 	env.Debug.Trace(String.Format("target host net: {0}", target_host.NetAddress));
-  if (gTargetInfo.IPAddress)
+	if (gTargetInfo.IPAddress)
 		target_host.IPAddress = gTargetInfo.IPAddress;
 	else
 		get_target_ip(target_host);
@@ -272,7 +273,7 @@ function find_ip(stdOut, mac)
 	return null;
 }
 /**/
-/** /
+/**/
 function arp_update_udp(svrAddrs)
 {
 	var UDP_DISCARD_PORT = 9;
@@ -286,45 +287,45 @@ function arp_update_udp(svrAddrs)
 	}
 	return;
 }
-/**/
+/** /
 function arp_update_udp(svrAddrs)
 {
 	var oShell = new ActiveXObject("WScript.Shell");
 	env.Debug.Trace('update arp table');
 	oShell.Run("wakearp.exe " + svrAddrs, 0, true);
-  oShell = null;
+	oShell = null;
 }
 /**/
 // This function checks incoming data until a command line prompt has been displayed.
 // If no data were received for 5 seconds, this function returns false.
 function waitForPrompt(prompt) {
-  var line = '';
-  while(!line.match(prompt)) {
-    var data = conn.ReceiveData(60000); // wait new data for 1 minutes
-    if (data == null) {
-      env.Debug.Trace('Timeout');
-      return false; // timout
-    }
-    line += data;
-  }
-  return true; // command-line prompt detected
+	var line = '';
+	while(!line.match(prompt)) {
+		var data = conn.ReceiveData(60000); // wait new data for 1 minutes
+		if (data == null) {
+		  env.Debug.Trace('Timeout');
+		  return false; // timout
+		}
+		line += data;
+	}
+	return true; // command-line prompt detected
 }
 
 function waitForPromptXY(prompt, end, timeout) {
-  var line = '';
-  while(true) {
-	if (line.EndsWith(prompt))
-		return 'X';
-	if (line.EndsWith(end))
-		return 'Y';
-    var data = conn.ReceiveData(1); // wait new data for 1 minutes
-    if (data == null && --timeout == 0) {
-      env.Debug.Trace('Timeout');
-      break;
-    }
-    line += data;
-  }
-  return null;
+	var line = '';
+	while(true) {
+		if (line.EndsWith(prompt))
+			return 'X';
+		if (line.EndsWith(end))
+			return 'Y';
+		var data = conn.ReceiveData(1); // wait new data for 1 minutes
+		if (data == null && --timeout == 0) {
+		  env.Debug.Trace('Timeout');
+		  break;
+		}
+		line += data;
+	}
+	return null;
 }
 
 function telnet_omap(local_host, target_host) {
@@ -344,10 +345,10 @@ function telnet_omap(local_host, target_host) {
 
 	//Telnet negotiation
 	conn = env.Connections.Open(param);
-  if (conn == null) {
-    return -1;
-  }
-  param = null;
+	if (conn == null) {
+		return -1;
+	}
+	param = null;
     if (!waitForPrompt("login:"))
         return -1;
     conn.TransmitLn(account);
